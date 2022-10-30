@@ -7,10 +7,7 @@
 
 #define UNUSED(x) (void)(x)
 
-
-
 void ftp_fini();
-
 
 #define PATH_MAX 256
 #define TemporaryNameSize 4096
@@ -115,7 +112,6 @@ static void cmd_PASS_func(ClientInfo *client)
 static void cmd_QUIT_func(ClientInfo *client)
 {
 	client_send_ctrl_msg(client, "221 Goodbye senpai :'(\n");
-	
 }
 
 static void cmd_SYST_func(ClientInfo *client)
@@ -373,7 +369,7 @@ static void send_LIST(ClientInfo *client, const char *path)
 			if ( err== 0) 
 			{
 				
-				 tm = f_localtime(&(st.st_ctim));
+				 tm = f_localtime((const time_t *)&(st.st_ctim));
 				 
 				 gen_list_format(buffer, sizeof(buffer),
 					st.st_mode,
@@ -410,7 +406,6 @@ static void send_LIST(ClientInfo *client, const char *path)
 	client_close_data_connection(client);
 	client_send_ctrl_msg(client, "226 Transfer complete.\n");
 }
-
 
 static void cmd_LIST_func(ClientInfo *client)
 {
@@ -720,6 +715,7 @@ static void cmd_SIZE_func(ClientInfo *client)
 	client_send_ctrl_msg(client, cmd);
 }
 
+/**
 #define add_entry(name) {#name, cmd_##name##_func}
 static const cmd_dispatch_entry cmd_dispatch_table[] = {
 	add_entry(USER),
@@ -743,6 +739,7 @@ static const cmd_dispatch_entry cmd_dispatch_table[] = {
 	add_entry(SIZE),
 	{NULL, NULL}
 };
+*/
 
 static cmd_dispatch_func get_dispatch_func(const char *cmd)
 {
@@ -1071,8 +1068,6 @@ void ftp_fini()
 
 		//f_sceNetCtlTerm();
 		//f_sceNetTerm();
-
-		
 
 		ftp_initialized = 0;
 	}

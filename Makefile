@@ -1,10 +1,10 @@
-CC      := clang
-AS      := clang
+CC      := gcc
+AS      := gcc
 ODIR    := build
 SDIR    := source
 IDIRS   := -I. -Iinclude
 LDIRS   := -L. -Llib
-CFLAGS  := $(IDIRS) -fno-builtin -nostdlib -Wall -m64 -fPIC -mcmodel=small
+CFLAGS  := $(IDIRS) -s -std=gnu11 -fno-builtin -fno-exceptions -fno-asynchronous-unwind-tables -nostartfiles -nostdlib -Wall -m64 -fPIC -mcmodel=small -nostartfiles
 SFLAGS  := -fno-builtin -nostartfiles -nostdlib -fPIC -mcmodel=small
 LFLAGS  := $(LDIRS) -Xlinker -T linker.x -Wl,--build-id=none
 CFILES  := $(wildcard $(SDIR)/*.c)

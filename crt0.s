@@ -3,4 +3,4 @@
 
 .global _start
 _start:
-    jmp		payload_main
+    jmp payload_main

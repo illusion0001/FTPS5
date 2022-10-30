@@ -99,8 +99,9 @@ typeof(gmtime_s) * f_gmtime_s;
 typeof(time) * f_time;
 typeof(localtime) * f_localtime;
 typeof(vsprintf) * f_vsprintf;
-
-
+typeof(read) * f__read;
+typeof(fork) * f_fork;
+typeof(exit) * f_exit;
 
 #define sce_net_errno (*f_sceNetErrnoLoc())
 

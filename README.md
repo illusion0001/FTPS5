@@ -1,16 +1,18 @@
 # FTPS5
 FTP server for PS5 Webkit
 
-Requires Ubuntu 20.04 Clang
+## Known issue
+Forking webkit process causes a kernel panic when the console is shut down.
+Comment "#define PERSISTENT" to avoid it but persistence will be lost.
 
-Credits:
+## Credits:
 
-Sistro: Fixing code
+[xerpi](https://github.com/xerpi): Original source
 
-ChendoChap: Fixing loader
+[bigboss](https://github.com/psxdev): Source improvement
 
-SpecterDev: Fixing code
+[ChendoChap](https://github.com/ChendoChap): Fixing loader
 
-bigboss: Source improvement
+[SpecterDev](https://github.com/Cryptogenic): Fixing code
 
-xerpi: Original source
+[SiSTRo](https://github.com/SiSTR0): Fixing code
