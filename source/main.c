@@ -1,6 +1,6 @@
 #include "ftps4.h"
 
-#define PAYLOAD_NAME "FTPS5 v1.1"
+#define PAYLOAD_NAME "FTPS5 v1.1 FS Fixed"
 #define PERSISTENT
 
 int netdbg_sock;
