@@ -272,7 +272,7 @@ static char file_type_char(mode_t mode)
 		S_ISLNK(mode) ? 'l' : ' ';
 }
 
-static int gen_list_format(char *out, int n, mode_t mode, long long int file_size,
+static int gen_list_format(char *out, int n, mode_t mode, uint64_t file_size,
 	int month_n, int day_n, int hour, int minute, const char *filename)
 {
 	static const char num_to_month[][4] = {
@@ -281,7 +281,7 @@ static int gen_list_format(char *out, int n, mode_t mode, long long int file_siz
 	};
 
 	return f_snprintf(out, n,
-		"%c%s 1 ps4 ps4 %lld %s %-2d %02d:%02d %s\r\n",
+		"%c%s 1 ps5 ps5 %lu %s %-2d %02d:%02d %s\r\n",
 		file_type_char(mode),
 		S_ISDIR(mode) ? "rwxr-xr-x" : "rw-r--r--",
 		file_size,
