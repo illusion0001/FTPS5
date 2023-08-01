@@ -1,8 +1,13 @@
 #include "ftps4.h"
 
-#define PAYLOAD_NAME "FTPS5 v1.2"
+#define PAYLOAD_NAME "FTPS5 v1.3"
 
 int netdbg_sock;
+void* ptr_syscall;
+
+void resolve_syscall() {
+    ptr_syscall = (void *)(f_munmap + 0x0A);
+}
 
 void klog(const char* fmt, ...) {
     char buffer[512];
@@ -143,7 +148,9 @@ int payload_main(struct payload_args *args) {
     dlsym(libC, "sscanf", &f_sscanf);
     dlsym(libC, "malloc", &f_malloc);
     dlsym(libC, "calloc", &f_calloc);
+    dlsym(libC, "realloc", &f_realloc);
     dlsym(libC, "strlen", &f_strlen);
+    dlsym(libC, "strdup", &f_strdup);
     dlsym(libC, "strcmp", &f_strcmp);
     dlsym(libC, "strchr", &f_strchr);
     dlsym(libC, "strrchr", &f_strrchr);
@@ -162,6 +169,8 @@ int payload_main(struct payload_args *args) {
         printf_notification(PAYLOAD_NAME"\nUnable to get IP address");
         return 0;
     }
+
+    resolve_syscall();
 
 #ifdef PERSISTENT
     // Great thanks to Specter for fork idea!

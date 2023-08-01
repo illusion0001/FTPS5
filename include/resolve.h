@@ -15,6 +15,7 @@
 #include <time.h>
 #include <dirent.h>
 #include <sys/mman.h>
+#include <sys/syscall.h>
 #include <orbis/libkernel.h>
 #include <orbis/libSceNet.h>
 #include <orbis/libSceLibcInternal.h>
@@ -25,6 +26,8 @@
 #define SCE_NET_ERROR_EINTR 0x80410104
 #define SCE_NET_SOL_SOCKET 0xffff
 #define UNUSED(x) (void)(x)
+
+#define MNT_UPDATE 0x0000000000010000ULL
 
 int (*f_sceNetCtlInit)(void);
 void (*f_sceNetCtlTerm)(void);
@@ -91,7 +94,9 @@ typeof(strncpy) * f_strncpy;
 typeof(sscanf) * f_sscanf;
 typeof(malloc) * f_malloc;
 typeof(calloc) * f_calloc;
+typeof(realloc) * f_realloc;
 typeof(strlen) * f_strlen;
+typeof(strdup) * f_strdup;
 typeof(strcmp) * f_strcmp;
 typeof(strrchr) * f_strrchr;
 typeof(strchr) * f_strchr;
@@ -111,6 +116,8 @@ typeof(exit) * f_exit;
 #define PS4_PORT 1337
 
 extern int netdbg_sock;
+
+extern long f_syscall(unsigned long n, ...);
 
 typedef int dlsym_t(int, const char*, void*);
 

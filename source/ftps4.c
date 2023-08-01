@@ -715,6 +715,65 @@ static void cmd_SIZE_func(ClientInfo *client)
 	client_send_ctrl_msg(client, cmd);
 }
 
+static void build_iovec(struct iovec **iov, int *iovlen, const char *name, const void *val, size_t len) {
+	int i;
+	if (*iovlen < 0) {
+		return;
+	}
+	i = *iovlen;
+	*iov = f_realloc(*iov, sizeof **iov * (i + 2));
+	if (*iov == NULL) {
+		*iovlen = -1;
+		return;
+	}
+	(*iov)[i].iov_base = f_strdup(name);
+	(*iov)[i].iov_len = f_strlen(name) + 1;
+	++i;
+	(*iov)[i].iov_base = (void *)val;
+	if (len == (size_t)-1) {
+		if (val != NULL) {
+			len = f_strlen(val) + 1;
+		} else {
+			len = 0;
+		}
+	}
+	(*iov)[i].iov_len = (int)len;
+	*iovlen = ++i;
+}
+
+static int mount_large_fs(const char *device, const char *mountpoint, const char *fstype, const char *mode, unsigned int flags) {
+	struct iovec *iov = NULL;
+	int iovlen = 0;
+	build_iovec(&iov, &iovlen, "fstype", fstype, -1);
+	build_iovec(&iov, &iovlen, "fspath", mountpoint, -1);
+	build_iovec(&iov, &iovlen, "from", device, -1);
+	build_iovec(&iov, &iovlen, "large", "yes", -1);
+	build_iovec(&iov, &iovlen, "timezone", "static", -1);
+	build_iovec(&iov, &iovlen, "async", "", -1);
+	build_iovec(&iov, &iovlen, "ignoreacl", "", -1);
+	if (mode) {
+		build_iovec(&iov, &iovlen, "dirmask", mode, -1);
+		build_iovec(&iov, &iovlen, "mask", mode, -1);
+	}
+
+	return f_syscall(SYS_nmount, iov, iovlen, flags);
+}
+
+static void cmd_MTRW_func(ClientInfo *client)
+{
+	if (mount_large_fs("/dev/ssd0.system", "/system", "exfatfs", "511", MNT_UPDATE )) {
+		client_send_ctrl_msg(client, "550 Remount /system failed.\n");
+		return;
+	}
+
+	if (mount_large_fs("/dev/ssd0.system_ex", "/system_ex", "exfatfs", "511", MNT_UPDATE)) {
+		client_send_ctrl_msg(client, "550 Remount /system_ex failed.\n");
+		return;
+	}
+
+	client_send_ctrl_msg(client, "200 Command okay.\n");
+}
+
 /**
 #define add_entry(name) {#name, cmd_##name##_func}
 static const cmd_dispatch_entry cmd_dispatch_table[] = {
@@ -783,6 +842,8 @@ static cmd_dispatch_func get_dispatch_func(const char *cmd)
 		return cmd_RNTO_func;
 	} else if (!f_strcmp(cmd, "SIZE")) {
 		return cmd_SIZE_func;
+	} else if (!f_strcmp(cmd, "MTRW")) {
+		return cmd_MTRW_func;
 	}
 
 	return NULL;
