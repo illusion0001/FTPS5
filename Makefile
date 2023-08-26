@@ -1,5 +1,5 @@
-CC      := gcc
-AS      := gcc
+CC      := clang
+AS      := clang
 ODIR    := build
 SDIR    := source
 IDIRS   := -I. -Iinclude
