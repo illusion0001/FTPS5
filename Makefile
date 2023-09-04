@@ -5,8 +5,6 @@ SDIR    := source
 IDIRS   := -I. -Iinclude
 LDIRS   := -L. -Llib
 
-PERSIST ?= 1
-
 ifeq ($(PERSIST),0)
         PERSISTENT :=
 else
