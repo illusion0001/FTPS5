@@ -12,8 +12,6 @@ CFILES  := $(wildcard $(SDIR)/*.c)
 SFILES  := $(wildcard $(SDIR)/*.s)
 OBJS    := $(patsubst $(SDIR)/%.c, $(ODIR)/%.o, $(CFILES)) $(patsubst $(SDIR)/%.s, $(ODIR)/%.o, $(SFILES))
 
-LIBS :=
-
 all: ftps5-np.elf ftps5-p.elf
 
 ftps5-np.elf: $(ODIR) $(OBJS)
