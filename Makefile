@@ -16,10 +16,10 @@ LIBS :=
 
 all: ftps5-np.elf ftps5-p.elf
 
-ftps5-np.elf: clean $(ODIR) $(OBJS)
+ftps5-np.elf: $(ODIR) $(OBJS)
 	$(CC) crt0.s $(ODIR)/*.o -o $@ $(CFLAGS) $(LFLAGS) $(LIBS)
 
-ftps5-p.elf: clean $(ODIR) $(OBJS)
+ftps5-p.elf: $(ODIR) $(OBJS)
 	$(CC) crt0.s $(ODIR)/*.o -o $@ -DPERSISTENT $(CFLAGS) $(LFLAGS) $(LIBS)
 
 $(ODIR)/%.o: $(SDIR)/%.c
