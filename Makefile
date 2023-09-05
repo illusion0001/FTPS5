@@ -14,7 +14,7 @@ OBJS    := $(patsubst $(SDIR)/%.c, $(ODIR)/%.o, $(CFILES)) $(patsubst $(SDIR)/%.
 
 LIBS :=
 
-all: ftps5-np.elf ftps5-p.elf
+all: ftps5-np.elf clean_obj ftps5-p.elf
 
 ftps5-np.elf: clean $(ODIR) $(OBJS)
 	$(CC) crt0.s $(ODIR)/*.o -o $@ $(CFLAGS) $(LFLAGS) $(LIBS)
@@ -33,3 +33,6 @@ $(ODIR):
 
 clean:
 	rm -f ./*.elf $(ODIR)/*.o
+
+clean_obj:
+	rm -f $(ODIR)/*.o
