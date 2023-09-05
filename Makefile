@@ -18,7 +18,7 @@ all: ftps5-np.elf ftps5-p.elf
 
 ftps5-np.elf: $(ODIR) $(OBJS)
 	$(CC) crt0.s $(ODIR)/*.o -o $@ $(CFLAGS) $(LFLAGS) $(LIBS)
-	rm -f $(ODIR)/*.o
+	rm -f $(ODIR)/*.o || ls
 
 ftps5-p.elf: $(ODIR) $(OBJS)
 	$(CC) crt0.s $(ODIR)/*.o -o $@ -DPERSISTENT $(CFLAGS) $(LFLAGS) $(LIBS)
