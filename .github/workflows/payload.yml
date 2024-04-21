@@ -16,7 +16,9 @@ jobs:
     - name: Build
       run: |
         make PERSIST=1
+        make clean
         make PERSIST=0
+        ls
     - name: Upload payload
       uses: actions/upload-artifact@main
       with:
