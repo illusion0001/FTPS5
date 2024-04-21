@@ -1,28 +1,22 @@
 name: Build payload
 
-on: [ push, pull_request ]
+on: push
 
 jobs:
   payload-build:
     runs-on: ubuntu-latest
     steps:
-
     - name: Checkout
-      uses: actions/checkout@v3
-
+      uses: actions/checkout@main
     - name: Set up GCC
       uses: illusion0001/gha-setup-gcc@master
       with:
         version: 9
         platform: x64
-
     - name: Build
       run: make
-
     - name: Upload payload
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@main
       with:
         name: ftps5
         path: ./*.elf
-        if-no-files-found: error
-
