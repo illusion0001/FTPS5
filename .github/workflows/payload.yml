@@ -14,7 +14,9 @@ jobs:
         version: 9
         platform: x64
     - name: Build
-      run: make
+      run: |
+        make
+        make PERSIST=0
     - name: Upload payload
       uses: actions/upload-artifact@main
       with:
