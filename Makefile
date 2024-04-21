@@ -39,7 +39,7 @@ $(ODIR)/%.o: $(SDIR)/%.s
 $(ODIR):
 	@mkdir $@
 
-.PHONY: clean all
+.PHONY: clean ftps5-np.elf ftps5-p.elf
 
 clean:
 	rm -f $(shell basename $(CURDIR)).elf $(TARGET) $(ODIR)/*.o
