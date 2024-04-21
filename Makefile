@@ -28,7 +28,7 @@ ftps5-np.elf: $(ODIR) $(OBJS)
 	$(CC) crt0.s $(ODIR)/*.o -o $@ $(CFLAGS) $(LFLAGS) $(LIBS)
 
 ftps5-p.elf: $(ODIR) $(OBJS)
-	$(CC) crt0.s $(ODIR)/*.o -o $@ $(CFLAGS) $(LFLAGS) $(LIBS) -DPERSISTENT
+	$(CC) crt0.s $(ODIR)/*.o -o $@ $(CFLAGS) $(LFLAGS) $(LIBS)
 
 $(ODIR)/%.o: $(SDIR)/%.c
 	$(CC) -c -o $@ $< $(CFLAGS)
@@ -39,7 +39,7 @@ $(ODIR)/%.o: $(SDIR)/%.s
 $(ODIR):
 	@mkdir $@
 
-.PHONY: clean ftps5-np.elf ftps5-p.elf
+.PHONY: clean all
 
 clean:
 	rm -f $(shell basename $(CURDIR)).elf $(TARGET) $(ODIR)/*.o
