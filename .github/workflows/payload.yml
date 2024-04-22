@@ -16,9 +16,10 @@ jobs:
     - name: Build
       run: |
         make PERSIST=1
+        mv ftps5.elf ftps5_p.elf
         make clean
         make PERSIST=0
-        ls
+        mv ftps5.elf ftps5_np.elf
     - name: Upload payload
       uses: actions/upload-artifact@main
       with:
