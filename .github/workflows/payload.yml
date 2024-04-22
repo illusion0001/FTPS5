@@ -5,6 +5,8 @@ on: push
 jobs:
   payload-build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
     - name: Checkout
       uses: actions/checkout@main
@@ -21,7 +23,12 @@ jobs:
         make PERSIST=0
         mv ftps5.elf ftps5_np.elf
     - name: Upload payload
+      if: false
       uses: actions/upload-artifact@main
       with:
         name: ftps5
         path: ./*.elf
+    - name: Upload
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: gh release create 1.0${{ GITHUB.RUN_NUMBER }} ./*.elf --target ${{ GITHUB.SHA }} -t 1.0${{ GITHUB.RUN_NUMBER }}
